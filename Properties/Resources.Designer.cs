@@ -52,7 +52,7 @@ namespace VideoJam.Properties
             {
                 if ((resourceMan == null))
                 {
-                    ResourceManager temp = new ResourceManager("VideoDownloader.Properties.Resources", typeof(Resources).Assembly);
+                    ResourceManager temp = new ResourceManager("VideoJam.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

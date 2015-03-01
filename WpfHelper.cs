@@ -16,7 +16,7 @@ namespace VideoJam
         {
             return
                 new ImageSourceConverter().ConvertFromString(
-                    "pack://application:,,,/VideoDownloader;component/" + relativeLocator) as
+                    "pack://application:,,,/VideoJam;component/" + relativeLocator) as
                     ImageSource;
         }
     }
