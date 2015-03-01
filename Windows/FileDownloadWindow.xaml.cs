@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Media;
 using System.Net;
 
 namespace VideoJam.Windows
@@ -14,6 +15,10 @@ namespace VideoJam.Windows
         public string SavePath { get; private set; }
 
         public Exception Error { get; private set; }
+
+        public bool Completed { get; private set; }
+
+        private WebClient _webClient;
 
         public FileDownloadWindow(string downloadUrl, string savePath)
         {
@@ -34,33 +39,36 @@ namespace VideoJam.Windows
             NameTextBlock.Text = Path.GetFileName(SavePath);
 
             var tempPath = Path.GetTempFileName();
-            var webClient = WebHelper.GetWebClient(DownloadUrl);
+            _webClient = WebHelper.GetWebClient(DownloadUrl);
 
-            webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
-            webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
-            webClient.DownloadFileAsync(new Uri(DownloadUrl, UriKind.Absolute), tempPath, tempPath);
+            _webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
+            _webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
+            _webClient.DownloadFileAsync(new Uri(DownloadUrl, UriKind.Absolute), tempPath, tempPath);
         }
 
         private void webClient_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            if (e.Error != null)
+            var tempPath = e.UserState as string;
+
+            TheButton.Content = "Close";
+            Completed = true;
+
+            if (e.Error != null || e.Cancelled)
             {
                 Error = e.Error;
-                DialogResult = false;
-            }
-            else if (!e.Cancelled)
-            {
-                StatusTextBlock.Text = "Moving file...";
+                File.Delete(tempPath);
 
-                var tempPath = e.UserState as string;
-                File.Move(tempPath, SavePath);
-
-                StatusTextBlock.Text = "Completed!";
-                DialogResult = true;
+                StatusTextBlock.Text = e.Cancelled ? "Download cancelled" : "Error while downloading the file";
             }
             else
             {
-                DialogResult = false;
+                TheButton.IsEnabled = false;
+                StatusTextBlock.Text = "Moving file...";
+
+                File.Move(tempPath, SavePath);
+
+                StatusTextBlock.Text = "Completed!";
+                TheButton.IsEnabled = true;
             }
         }
 
@@ -68,6 +76,19 @@ namespace VideoJam.Windows
         {
             StatusTextBlock.Text = string.Format("{0} / {1} bytes ({2}%)", e.BytesReceived, e.TotalBytesToReceive, e.ProgressPercentage);
             ProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void TheButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (Completed)
+            {
+                DialogResult = true;
+            }
+            else
+            {
+                _webClient.CancelAsync();
+                SystemSounds.Asterisk.Play();
+            }
         }
     }
 }

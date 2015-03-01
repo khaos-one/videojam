@@ -125,16 +125,8 @@ namespace VideoJam.Windows
 
             if (result == true)
             {
-                // TODO: Make file download.
-                //MessageBox.Show("Not yet implemented. Lol, sorry.", "Not Implemented", MessageBoxButton.OK, MessageBoxImage.Error);
                 var downloadWindow = new FileDownloadWindow(selectedQuality.DownloadUrl, saveFileDialog.FileName);
                 var downloadResult = downloadWindow.ShowDialog();
-
-                if (downloadResult == false && downloadWindow.Error != null)
-                {
-                    MessageBox.Show("Error occured while downloading the file:\n\n" + downloadWindow.Error, "Warning",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
             }
         }
     }
