@@ -38,13 +38,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -61,8 +57,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Hostings\XnxxCom.cs" />
+    <Compile Include="Hostings\YouTubeComITagInfo.cs" />
+    <Compile Include="Hostings\YouTubeComVideoInfo.cs" />
     <Compile Include="Hostings\XnxxComVideoInfo.cs" />
     <Compile Include="Hostings\XnxxComVideoQuality.cs" />
+    <Compile Include="Hostings\YouTubeCom.cs" />
+    <Compile Include="Hostings\YouTubeComVideoQuality.cs" />
     <Compile Include="IVideoInfo.cs" />
     <Compile Include="IVideoQuality.cs" />
     <Compile Include="StringHelper.cs" />
@@ -125,9 +125,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\LoadingBig.gif" />

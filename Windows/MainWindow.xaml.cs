@@ -15,8 +15,9 @@ namespace VideoJam.Windows
     /// </summary>
     public sealed partial class MainWindow
     {
-        private readonly IList<IVideoHosting> _hostings = new[]
+        private readonly IList<IVideoHosting> _hostings = new IVideoHosting[]
         {
+            YouTubeCom.Instance,
             XnxxCom.Instance
         };
 
@@ -92,7 +93,7 @@ namespace VideoJam.Windows
                 return;
 
             _currentVideoInfo = null;
-            string videoUrl = VideoUrlTextBox.Text;
+            var videoUrl = VideoUrlTextBox.Text;
 
             VideoDetailsFrame.Visibility = Visibility.Hidden;
             BusyIndicatorFrame.IsBusy = true;
@@ -100,13 +101,22 @@ namespace VideoJam.Windows
             Task.Factory.StartNew(() => { _currentVideoInfo = _currentHosting.GetVideoInfo(videoUrl); })
                 .ContinueWith(task =>
                 {
-                    VideoNameTextBlock.Text = _currentVideoInfo.Name;
-                    VideoQualitiesComboBox.ItemsSource = _currentVideoInfo.Qualities;
-                    VideoQualitiesComboBox.SelectedIndex = 0;
-                    VideoPreviewImage.Source = VideoPreviewImageSource as ImageSource;
+                    if (task.Exception == null)
+                    {
+                        VideoNameTextBlock.Text = _currentVideoInfo.Name;
+                        VideoQualitiesComboBox.ItemsSource = _currentVideoInfo.Qualities;
+                        VideoQualitiesComboBox.SelectedIndex = 0;
+                        VideoPreviewImage.Source = VideoPreviewImageSource as ImageSource;
+
+                        VideoDetailsFrame.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to load any video information.\nIt's possible the video was removed.",
+                            "Error fetching info", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
                     BusyIndicatorFrame.IsBusy = false;
-                    VideoDetailsFrame.Visibility = Visibility.Visible;
                 }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -117,8 +127,8 @@ namespace VideoJam.Windows
                 return;
             }
 
-            var selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality ??
-                                  VideoQualitiesComboBox.Items[0] as IVideoQuality;
+            IVideoQuality selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality ??
+                                            VideoQualitiesComboBox.Items[0] as IVideoQuality;
 
             var saveFileDialog = new SaveFileDialog
             {
@@ -126,12 +136,12 @@ namespace VideoJam.Windows
                 DefaultExt = selectedQuality.FormatExtension,
                 Filter = selectedQuality.FormatName + "|*" + selectedQuality.FormatExtension
             };
-            var result = saveFileDialog.ShowDialog();
+            bool? result = saveFileDialog.ShowDialog();
 
             if (result == true)
             {
                 var downloadWindow = new FileDownloadWindow(selectedQuality.DownloadUrl, saveFileDialog.FileName);
-                var downloadResult = downloadWindow.ShowDialog();
+                bool? downloadResult = downloadWindow.ShowDialog();
             }
         }
     }

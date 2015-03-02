@@ -37,10 +37,7 @@ namespace VideoJam.Hostings
             _title = TitleExtractorRegex.Match(content).Groups[1].Value.Trim('\n', '\r', ' ');
 
             // Get file length.
-            var request = WebRequest.Create(_videoUrl);
-            request.Method = "HEAD";
-            var response = request.GetResponse();
-            _fileLength = response.ContentLength;
+            _fileLength = WebHelper.GetContentLength(_videoUrl);
         }
 
         public string Name
