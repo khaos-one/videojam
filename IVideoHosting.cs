@@ -2,14 +2,14 @@
 
 namespace VideoJam
 {
-	public interface IVideoHosting
-	{
-		string Name { get; }
+    public interface IVideoHosting
+    {
+        string Name { get; }
 
-		ImageSource HostingImage { get; }
+        ImageSource HostingImage { get; }
 
-	    bool IsHosted(string videoUrl);
+        bool IsHosted(string videoUrl);
 
-	    IVideoInfo GetVideoInfo(string videoUrl);
-	}
+        IVideoInfo GetVideoInfo(string videoUrl);
+    }
 }

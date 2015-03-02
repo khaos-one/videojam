@@ -65,7 +65,10 @@ namespace VideoJam
                     _thread = null;
                 }
             }
-            catch { }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+            }
         }
     }
 }

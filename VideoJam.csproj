@@ -60,9 +60,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FileDownloader.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Hostings\XnxxCom.cs" />
     <Compile Include="Hostings\XnxxComVideoInfo.cs" />
     <Compile Include="Hostings\XnxxComVideoQuality.cs" />

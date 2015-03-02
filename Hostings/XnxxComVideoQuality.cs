@@ -29,7 +29,11 @@
 
         public string TextRepresentation
         {
-            get { return string.Format(FormatName + " ({0}x{1}) — {2}", Width, Height, StringHelper.BytesToString(FileLength)); }
+            get
+            {
+                return string.Format(FormatName + " ({0}x{1}) — {2}", Width, Height,
+                    StringHelper.BytesToString(FileLength));
+            }
         }
 
         public string DownloadUrl { get; private set; }

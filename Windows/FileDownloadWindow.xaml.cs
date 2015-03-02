@@ -1,23 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Media;
 using System.Net;
+using System.Windows;
 
 namespace VideoJam.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для FileDownloadWindow.xaml
+    ///     Логика взаимодействия для FileDownloadWindow.xaml
     /// </summary>
     public sealed partial class FileDownloadWindow
     {
-        public string DownloadUrl { get; private set; }
-
-        public string SavePath { get; private set; }
-
-        public Exception Error { get; private set; }
-
-        public bool Completed { get; private set; }
-
         private WebClient _webClient;
 
         public FileDownloadWindow(string downloadUrl, string savePath)
@@ -27,6 +21,14 @@ namespace VideoJam.Windows
 
             InitializeComponent();
         }
+
+        public string DownloadUrl { get; private set; }
+
+        public string SavePath { get; private set; }
+
+        public Exception Error { get; private set; }
+
+        public bool Completed { get; private set; }
 
         public new bool? ShowDialog()
         {
@@ -38,7 +40,7 @@ namespace VideoJam.Windows
         {
             NameTextBlock.Text = Path.GetFileName(SavePath);
 
-            var tempPath = Path.GetTempFileName();
+            string tempPath = Path.GetTempFileName();
             _webClient = WebHelper.GetWebClient(DownloadUrl);
 
             _webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
@@ -46,7 +48,7 @@ namespace VideoJam.Windows
             _webClient.DownloadFileAsync(new Uri(DownloadUrl, UriKind.Absolute), tempPath, tempPath);
         }
 
-        private void webClient_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             var tempPath = e.UserState as string;
 
@@ -74,11 +76,13 @@ namespace VideoJam.Windows
 
         private void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            StatusTextBlock.Text = string.Format("{0} / {1} bytes ({2}%)", e.BytesReceived, e.TotalBytesToReceive, e.ProgressPercentage);
+            StatusTextBlock.Text = string.Format("{0} / {1} ({2}%)", StringHelper.BytesToString(e.BytesReceived),
+                StringHelper.BytesToString(e.TotalBytesToReceive),
+                e.ProgressPercentage);
             ProgressBar.Value = e.ProgressPercentage;
         }
 
-        private void TheButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void TheButton_Click(object sender, RoutedEventArgs e)
         {
             if (Completed)
             {

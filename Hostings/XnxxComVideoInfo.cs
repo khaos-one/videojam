@@ -9,15 +9,19 @@ namespace VideoJam.Hostings
     public sealed class XnxxComVideoInfo
         : IVideoInfo
     {
-        private static readonly Regex PageInfoExtractorRegex = new Regex(@"flashvars="".+?\&amp;flv_url=(.+?)\&amp;url_bigthumb=(.+?)\&amp;.*?height=(\d+)&amp;width=(\d+)");
-        private static readonly Regex TitleExtractorRegex = new Regex(@"""style5""><strong>([\w\s]+)</strong>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex PageInfoExtractorRegex =
+            new Regex(@"flashvars="".+?\&amp;flv_url=(.+?)\&amp;url_bigthumb=(.+?)\&amp;.*?height=(\d+)&amp;width=(\d+)");
 
-        private string _title;
-        private string _videoUrl;
-        private string _thumbnailUrl;
-        private int _height;
-        private int _width;
-        private long _fileLength;
+        private static readonly Regex TitleExtractorRegex = new Regex(@"""style5""><strong>([\w\s]+)</strong>",
+            RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        private readonly long _fileLength;
+        private readonly int _height;
+        private readonly string _thumbnailUrl;
+
+        private readonly string _title;
+        private readonly string _videoUrl;
+        private readonly int _width;
 
         public XnxxComVideoInfo(string url)
         {
@@ -33,7 +37,7 @@ namespace VideoJam.Hostings
             _title = TitleExtractorRegex.Match(content).Groups[1].Value.Trim('\n', '\r', ' ');
 
             // Get file length.
-            var request = System.Net.WebRequest.Create(_videoUrl);
+            var request = WebRequest.Create(_videoUrl);
             request.Method = "HEAD";
             var response = request.GetResponse();
             _fileLength = response.ContentLength;
@@ -51,7 +55,10 @@ namespace VideoJam.Hostings
 
         public IList<IVideoQuality> Qualities
         {
-            get { return new List<IVideoQuality>(1) {new XnxxComVideoQuality(_videoUrl, _height, _width, _fileLength)}; }
+            get
+            {
+                return new List<IVideoQuality>(1) {new XnxxComVideoQuality(_videoUrl, _height, _width, _fileLength)};
+            }
         }
     }
 }

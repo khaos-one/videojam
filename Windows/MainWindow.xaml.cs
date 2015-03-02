@@ -11,7 +11,7 @@ using VideoJam.Hostings;
 namespace VideoJam.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    ///     Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public sealed partial class MainWindow
     {
@@ -22,6 +22,12 @@ namespace VideoJam.Windows
 
         private IVideoHosting _currentHosting;
         private IVideoInfo _currentVideoInfo;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            VideoUrlTextBox.Focus();
+        }
 
         private object VideoPreviewImageSource
         {
@@ -46,29 +52,23 @@ namespace VideoJam.Windows
             }
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            VideoUrlTextBox.Focus();
-        }
-
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-        	Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-        	var aboutWindow = new AboutWindow();
-			aboutWindow.ShowDialog();
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         private void VideoUrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _currentHosting = null;
-            var videoUrl = ((TextBox) sender).Text;
+            string videoUrl = ((TextBox) sender).Text;
 
-            foreach (var hosting in _hostings.Where(hosting => hosting.IsHosted(videoUrl)))
+            foreach (IVideoHosting hosting in _hostings.Where(hosting => hosting.IsHosted(videoUrl)))
             {
                 _currentHosting = hosting;
                 break;
@@ -92,30 +92,35 @@ namespace VideoJam.Windows
                 return;
 
             _currentVideoInfo = null;
-            var videoUrl = VideoUrlTextBox.Text;
+            string videoUrl = VideoUrlTextBox.Text;
 
             VideoDetailsFrame.Visibility = Visibility.Hidden;
             BusyIndicatorFrame.IsBusy = true;
 
-            Task.Factory.StartNew(() =>
-            {
-                _currentVideoInfo = _currentHosting.GetVideoInfo(videoUrl);
-            }).ContinueWith((task) =>
-            {
-                VideoNameTextBlock.Text = _currentVideoInfo.Name;
-                VideoQualitiesComboBox.ItemsSource = _currentVideoInfo.Qualities;
-                VideoQualitiesComboBox.SelectedIndex = 0;
-                VideoPreviewImage.Source = VideoPreviewImageSource as ImageSource;
+            Task.Factory.StartNew(() => { _currentVideoInfo = _currentHosting.GetVideoInfo(videoUrl); })
+                .ContinueWith(task =>
+                {
+                    VideoNameTextBlock.Text = _currentVideoInfo.Name;
+                    VideoQualitiesComboBox.ItemsSource = _currentVideoInfo.Qualities;
+                    VideoQualitiesComboBox.SelectedIndex = 0;
+                    VideoPreviewImage.Source = VideoPreviewImageSource as ImageSource;
 
-                BusyIndicatorFrame.IsBusy = false;
-                VideoDetailsFrame.Visibility = Visibility.Visible;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                    BusyIndicatorFrame.IsBusy = false;
+                    VideoDetailsFrame.Visibility = Visibility.Visible;
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void DownloadVideoButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality;
-            var saveFileDialog = new SaveFileDialog()
+            if (VideoQualitiesComboBox.Items.Count == 0)
+            {
+                return;
+            }
+
+            var selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality ??
+                                  VideoQualitiesComboBox.Items[0] as IVideoQuality;
+
+            var saveFileDialog = new SaveFileDialog
             {
                 FileName = _currentVideoInfo.Name,
                 DefaultExt = selectedQuality.FormatExtension,
