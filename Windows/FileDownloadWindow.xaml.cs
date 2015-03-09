@@ -60,7 +60,8 @@ namespace VideoJam.Windows
                 Error = e.Error;
                 File.Delete(tempPath);
 
-                StatusTextBlock.Text = e.Cancelled ? "Download cancelled" : "Error while downloading the file";
+                StatusTextBlock.Text = e.Cancelled ? "Download cancelled." : "Error while downloading the file.";
+                Title = "Download cancelled";
             }
             else
             {
@@ -71,6 +72,9 @@ namespace VideoJam.Windows
 
                 StatusTextBlock.Text = "Completed!";
                 TheButton.IsEnabled = true;
+                Title = "Download complete";
+
+                SystemSounds.Asterisk.Play();
             }
         }
 

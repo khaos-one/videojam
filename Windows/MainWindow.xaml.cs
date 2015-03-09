@@ -127,7 +127,7 @@ namespace VideoJam.Windows
                 return;
             }
 
-            IVideoQuality selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality ??
+            var selectedQuality = VideoQualitiesComboBox.SelectedItem as IVideoQuality ??
                                             VideoQualitiesComboBox.Items[0] as IVideoQuality;
 
             var saveFileDialog = new SaveFileDialog
@@ -136,12 +136,12 @@ namespace VideoJam.Windows
                 DefaultExt = selectedQuality.FormatExtension,
                 Filter = selectedQuality.FormatName + "|*" + selectedQuality.FormatExtension
             };
-            bool? result = saveFileDialog.ShowDialog();
+            var result = saveFileDialog.ShowDialog();
 
             if (result == true)
             {
                 var downloadWindow = new FileDownloadWindow(selectedQuality.DownloadUrl, saveFileDialog.FileName);
-                bool? downloadResult = downloadWindow.ShowDialog();
+                var downloadResult = downloadWindow.ShowDialog();
             }
         }
     }
