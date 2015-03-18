@@ -40,7 +40,7 @@ namespace VideoJam.Windows
         {
             NameTextBlock.Text = Path.GetFileName(SavePath);
 
-            string tempPath = Path.GetTempFileName();
+            var tempPath = Path.GetTempFileName();
             _webClient = WebHelper.GetWebClient(DownloadUrl);
 
             _webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
