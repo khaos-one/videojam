@@ -4,6 +4,7 @@ using System.IO;
 using System.Media;
 using System.Net;
 using System.Windows;
+using System.Windows.Shell;
 
 namespace VideoJam.Windows
 {
@@ -46,6 +47,8 @@ namespace VideoJam.Windows
             _webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
             _webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
             _webClient.DownloadFileAsync(new Uri(DownloadUrl, UriKind.Absolute), tempPath, tempPath);
+
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
         }
 
         private void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -60,13 +63,28 @@ namespace VideoJam.Windows
                 Error = e.Error;
                 File.Delete(tempPath);
 
-                StatusTextBlock.Text = e.Cancelled ? "Download cancelled." : "Error while downloading the file.";
-                Title = "Download cancelled";
+                if (e.Cancelled)
+                {
+                    StatusTextBlock.Text = "Download cancelled.";
+                    Title = "Download cancelled";
+                    TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Paused;
+                }
+                else
+                {
+                    StatusTextBlock.Text = "Error while downloading the file.";
+                    Title = "Download error";
+                    TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Error;
+                }
             }
             else
             {
                 TheButton.IsEnabled = false;
                 StatusTextBlock.Text = "Moving file...";
+
+                if (File.Exists(SavePath))
+                {
+                    File.Delete(SavePath);
+                }
 
                 File.Move(tempPath, SavePath);
 
@@ -84,6 +102,7 @@ namespace VideoJam.Windows
                 StringHelper.BytesToString(e.TotalBytesToReceive),
                 e.ProgressPercentage);
             ProgressBar.Value = e.ProgressPercentage;
+            TaskbarItemInfo.ProgressValue = e.ProgressPercentage / 100d;
         }
 
         private void TheButton_Click(object sender, RoutedEventArgs e)

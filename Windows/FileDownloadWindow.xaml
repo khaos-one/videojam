@@ -3,6 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Downloading file..." Height="230" Width="420" ResizeMode="NoResize"
         Icon="/VideoJam;component/Resources/Images/DownloadVideoBig.png">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="TaskbarItemInfo" ProgressState="None"></TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+    
     <Canvas>
         <ProgressBar Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="383" Canvas.Left="10"
                      Canvas.Top="97" Minimum="0" Maximum="100" x:Name="ProgressBar" />
