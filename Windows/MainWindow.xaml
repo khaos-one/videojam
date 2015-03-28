@@ -17,6 +17,7 @@
                        Canvas.Left="10" Canvas.Top="10" Width="92" />
                 <Button x:Name="GetVideoButton" Content="Get Video" Canvas.Left="455" Canvas.Top="72" Width="75"
                         IsDefault="True" IsEnabled="False" Click="GetVideoButton_Click" />
+                <Button x:Name="PasteLinkButton"  Content="Paste Link" Canvas.Left="375" Canvas.Top="72" Width="75" Click="PasteLinkButton_Click"/>
             </Canvas>
         </Border>
 

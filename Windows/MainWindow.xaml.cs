@@ -144,5 +144,10 @@ namespace VideoJam.Windows
                 var downloadResult = downloadWindow.ShowDialog();
             }
         }
+
+        private void PasteLinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            VideoUrlTextBox.Text = Clipboard.GetText();
+        }
     }
 }
