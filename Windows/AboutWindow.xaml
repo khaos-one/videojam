@@ -4,23 +4,23 @@
     x:Class="VideoJam.Windows.AboutWindow"
     x:Name="Window"
     Title="About VideoJam"
-    Width="288" Height="436" ResizeMode="NoResize" Icon="../Resources/Images/VideoGenericBig.png">
+    SizeToContent="WidthAndHeight" ResizeMode="NoResize" Icon="../Resources/Images/VideoGenericBig.png">
 
-    <Canvas x:Name="LayoutRoot">
+    <Canvas x:Name="LayoutRoot" Width="288" Height="422">
         <Image Source="../Resources/Images/VideoGenericBig.png" Stretch="Fill" Height="272.743" Canvas.Left="54"
                Canvas.Top="-42" Width="272" />
         <TextBlock HorizontalAlignment="Left" Margin="10,246,0,0" TextWrapping="Wrap" Text="VideoJam"
                    VerticalAlignment="Top" Width="253.033" FontSize="24" FontWeight="Bold" TextDecorations="{x:Null}"
                    Foreground="#FFC8962A" />
-        <TextBlock HorizontalAlignment="Left" Margin="10,277.923,0,0" TextWrapping="Wrap" Text="version 1.0.0"
+        <TextBlock x:Name="VersionTextBlock" HorizontalAlignment="Left" Margin="10,277.923,0,0" TextWrapping="Wrap" Text="version 1.1.0"
                    VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Foreground="#FF6E6D6D" />
         <TextBlock HorizontalAlignment="Left" Margin="10,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="By Egor 'khaos' Zelensky, 2015." />
 
-        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1px"
-                Canvas.Top="355" Width="287" Height="52" Canvas.Left="-5">
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0 1 0 0"
+                Canvas.Top="380" Width="288" Height="42">
             <Canvas Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <Button Content="Ok" Canvas.Left="184" Canvas.Top="10" Width="75" Click="OkButton_Click" />
+                <Button Content="Ok" Canvas.Left="201" Canvas.Top="10" Width="75" Click="OkButton_Click" />
             </Canvas>
         </Border>
     </Canvas>

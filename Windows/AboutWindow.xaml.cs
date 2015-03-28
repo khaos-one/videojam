@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 
 namespace VideoJam.Windows
 {
@@ -11,7 +12,7 @@ namespace VideoJam.Windows
         {
             InitializeComponent();
 
-            // Вставьте ниже код, необходимый для создания объекта.
+            VersionTextBlock.Text = "version " + Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

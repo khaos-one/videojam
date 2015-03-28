@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("VideoJam")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Egor 'khaos' Zelensky")]
 [assembly: AssemblyProduct("VideoJam")]
 [assembly: AssemblyCopyright("Copyright © Egor 'khaos' Zelensky, 2015.")]
 [assembly: AssemblyTrademark("")]
@@ -49,5 +49,4 @@ using System.Windows;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0")]

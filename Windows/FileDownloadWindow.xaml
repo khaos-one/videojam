@@ -1,13 +1,13 @@
 ﻿<Window x:Class="VideoJam.Windows.FileDownloadWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Downloading file..." Height="230" Width="420" ResizeMode="NoResize"
+        Title="Downloading file..." ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         Icon="/VideoJam;component/Resources/Images/DownloadVideoBig.png">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="TaskbarItemInfo" ProgressState="None"></TaskbarItemInfo>
     </Window.TaskbarItemInfo>
-    
-    <Canvas>
+
+    <Canvas Height="200" Width="404">
         <ProgressBar Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="383" Canvas.Left="10"
                      Canvas.Top="97" Minimum="0" Maximum="100" x:Name="ProgressBar" />
 
@@ -19,10 +19,10 @@
                    x:Name="NameTextBlock" />
         <TextBlock Canvas.Left="52" TextWrapping="Wrap" Canvas.Top="56" Width="343" x:Name="StatusTextBlock" />
 
-        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1px"
-                Canvas.Top="149" Width="419" Height="52" Canvas.Left="-5">
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0 1 0 0"
+                Canvas.Top="158" Width="404" Height="42">
             <Canvas Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <Button Content="Cancel" Canvas.Left="313" Canvas.Top="10" Width="75" x:Name="TheButton"
+                <Button Content="Cancel" Canvas.Left="319" Canvas.Top="10" Width="75" x:Name="TheButton"
                         Click="TheButton_Click" />
             </Canvas>
         </Border>

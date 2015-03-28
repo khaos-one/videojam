@@ -4,33 +4,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" x:Class="VideoJam.Windows.MainWindow"
-    Title="VideoJam" Height="400" Width="600" ResizeMode="NoResize" Icon="../Resources/Images/VideoGenericBig.png">
-    <Canvas>
+    Title="VideoJam" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Icon="../Resources/Images/VideoGenericBig.png">
+    <Canvas Height="370" Width="600">
         <Line X1="0" Y1="0" X2="2000" Y2="0" Stroke="Red" StrokeThickness="7px" />
         <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1px"
-                Canvas.Left="23" Canvas.Top="26" Width="542" Height="114" HorizontalAlignment="Right">
+                Canvas.Left="10" Canvas.Top="26" Width="580" Height="114" HorizontalAlignment="Right">
             <Canvas Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <TextBox AcceptsReturn="False" AcceptsTab="False" Height="23" Canvas.Left="118" TextWrapping="Wrap"
-                         Canvas.Top="44" Width="412" x:Name="VideoUrlTextBox" TextChanged="VideoUrlTextBox_TextChanged" />
+                <TextBox AcceptsReturn="False" AcceptsTab="False" Height="23" Canvas.Left="118" TextWrapping="NoWrap"
+                         Canvas.Top="44" Width="450" x:Name="VideoUrlTextBox" TextChanged="VideoUrlTextBox_TextChanged" MaxLines="1" />
                 <TextBlock Canvas.Left="118" TextWrapping="Wrap" Text="Video URL:" Canvas.Top="15" FontSize="18" />
                 <Image x:Name="VideoHostingImage" Source="../Resources/Images/VideoGenericBig.png" Height="92"
                        Canvas.Left="10" Canvas.Top="10" Width="92" />
-                <Button x:Name="GetVideoButton" Content="Get Video" Canvas.Left="455" Canvas.Top="72" Width="75"
+                <Button x:Name="GetVideoButton" Content="Get Video" Canvas.Left="488" Canvas.Top="72" Width="80"
                         IsDefault="True" IsEnabled="False" Click="GetVideoButton_Click" />
-                <Button x:Name="PasteLinkButton"  Content="Paste Link" Canvas.Left="375" Canvas.Top="72" Width="75" Click="PasteLinkButton_Click"/>
+                <Button x:Name="PasteLinkButton"  Content="Paste Link" Canvas.Left="408" Canvas.Top="72" Width="75" Click="PasteLinkButton_Click"/>
             </Canvas>
         </Border>
 
-        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1px"
-                Canvas.Top="319" Width="604" Height="52" Canvas.Left="-10">
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0 1 0 0"
+                Canvas.Top="328" Width="600" Height="42">
             <Canvas Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <Button Content="Exit" Canvas.Left="489" Canvas.Top="10" Width="75" Click="ExitButton_Click" />
-                <Button Content="About" Canvas.Left="409" Canvas.Top="10" Width="75" Click="AboutButton_Click" />
+                <Button Content="Exit" Canvas.Left="515" Canvas.Top="10" Width="75" Click="ExitButton_Click" />
+                <Button Content="About" Canvas.Left="435" Canvas.Top="10" Width="75" Click="AboutButton_Click" />
             </Canvas>
         </Border>
 
         <Border x:Name="VideoDetailsFrame" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                BorderThickness="1px" Canvas.Left="23" Canvas.Top="174" Width="542" Height="114"
+                BorderThickness="1px" Canvas.Left="10" Canvas.Top="174" Width="580" Height="114"
                 HorizontalAlignment="Right" Visibility="Hidden">
             <Canvas Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                 <Image x:Name="VideoPreviewImage" Height="92" Canvas.Left="10" Canvas.Top="10" Width="116"
@@ -39,16 +39,16 @@
                            Foreground="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
                 <TextBlock Canvas.Left="141.331" TextWrapping="Wrap" Text="Video Quality:" Canvas.Top="47.21"
                            Foreground="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
-                <TextBlock Canvas.Left="220.581" TextWrapping="Wrap" Text="Some name" Canvas.Top="22.5" Width="309.419"
-                           x:Name="VideoNameTextBlock" />
-                <ComboBox Canvas.Left="220.581" Canvas.Top="43.46" Width="309.419" IsReadOnly="True"
+                <TextBlock Canvas.Left="221" TextWrapping="NoWrap" Text="Some name" Canvas.Top="22" Width="347"
+                           x:Name="VideoNameTextBlock" TextTrimming="CharacterEllipsis" />
+                <ComboBox Canvas.Left="221" Canvas.Top="43" Width="347" IsReadOnly="True"
                           x:Name="VideoQualitiesComboBox" DisplayMemberPath="TextRepresentation" />
-                <Button Content="Download" Canvas.Left="375.5" Canvas.Top="70.42" Width="154.5"
+                <Button Content="Download" Canvas.Left="414" Canvas.Top="70" Width="154"
                         x:Name="DownloadVideoButton" Click="DownloadVideoButton_Click" />
             </Canvas>
         </Border>
 
         <xctk:BusyIndicator x:Name="BusyIndicatorFrame" IsBusy="False" BusyContent="Fetching video info..."
-                            Height="112" Width="540" Canvas.Left="25" Canvas.Top="174" />
+                            Height="112" Width="580" Canvas.Left="10" Canvas.Top="174" />
     </Canvas>
 </Window>
